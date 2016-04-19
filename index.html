@@ -1,0 +1,31 @@
+<!doctype html>
+<html ng-app="geoPhotosApp">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-theme.min.css">
+    <script src="assets/js/angular.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="js/geophotos.js"></script>
+  </head>
+  <body>
+    <h2>Photos publiées</h2>
+    <div ng-controller="PhotosController as photos">
+      <span>{{photos.list.length}} photos actuellement publiées</span>
+      <table class="table">
+        <thead>
+          <tr> <th>#</th> <th>Photo</th> <th>Auteur</th> <th>Date</th> <th>Contrôles</th> </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="photo in photos.list">
+            <th scope="row">{{photo.id}}</th>
+            <td><img ng-src={{photo.location}} />{{photo.name}}</td>
+            <td>{{photo.author}}</td>
+            <td>{{photo.last_modified}}</td>
+            <td>Supprimer / Voir</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
