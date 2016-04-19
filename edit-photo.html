@@ -1,0 +1,24 @@
+<form name="myForm">
+  <div class="control-group" ng-class="{error: myForm.name.$invalid && !myForm.name.$pristine}">
+    <label>Nom de la photo</label>
+    <input type="text" name="name" ng-model="editPhoto.photo.name" required>
+    <span ng-show="myForm.name.$error.required && !myForm.name.$pristine" class="help-inline">
+        Requis
+    </span>
+  </div>
+
+  <div class="control-group" ng-class="{error: myForm.author.$invalid && !myForm.author.$pristine}">
+    <label>Auteur</label>
+    <input type="text" name="author" ng-model="editPhoto.photo.author" required>
+    <span ng-show="myForm.author.$error.required && !myForm.author.$pristine" class="help-inline">
+        Requis
+    </span>
+  </div>
+
+  <br>
+  <a href="#/" class="btn">Annuler</a>
+  <button ng-click="editPhoto.save()" ng-disabled="myForm.$invalid"
+          class="btn btn-primary">Sauvegarder</button>
+  <button ng-click="editPhoto.destroy()"
+          ng-show="editPhoto.photo.$id" class="btn btn-danger">Supprimer</button>
+</form>

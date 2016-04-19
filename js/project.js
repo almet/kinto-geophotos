@@ -1,6 +1,6 @@
 angular.module('project', ['ngRoute'])
 
-.service('Projects', function() {
+.service('Photos', function() {
   this.fetch = function () {
     return [
       {id:1, name: "Laura et la patate", location:"file:///home/alexis/Photos/public/2014-couscous/_DSC0127.jpg", author: "Alexis", last_modified: "1234"},
@@ -9,60 +9,59 @@ angular.module('project', ['ngRoute'])
   };
 })
 .config(function($routeProvider) {
-  var resolveProjects = {
-    projects: function (Projects) {
-      return Projects.fetch();
+  var resolvePhotos = {
+    photos: function (Photos) {
+      return Photos.fetch();
     }
   };
 
   $routeProvider
     .when('/', {
-      controller:'ProjectListController as projectList',
+      controller:'PhotoListController as photoList',
       templateUrl:'list-photos.html',
-      resolve: resolveProjects
+      resolve: resolvePhotos
     })
     .when('/edit/:projectId', {
-      controller:'EditProjectController as editProject',
+      controller:'EditPhotoController as editPhoto',
       templateUrl:'edit-photo.html',
-      resolve: resolveProjects
+      resolve: resolvePhotos
     })
     .when('/new', {
-      controller:'NewProjectController as editProject',
+      controller:'NewPhotoController as editPhoto',
       templateUrl:'edit-photo.html',
-      resolve: resolveProjects
+      resolve: resolvePhotos
     })
     .otherwise({
       redirectTo:'/'
     });
 })
 
-.controller('ProjectListController', function(projects) {
-  var projectList = this;
-  projectList.projects = projects;
+.controller('PhotoListController', function(photos) {
+  this.photos = photos;
 })
 
-.controller('NewProjectController', function($location, projects) {
-  var editProject = this;
-  editProject.save = function() {
-      console.log("save called");
+.controller('NewPhotoController', function($location, photos) {
+  var editPhoto = this;
+  editPhoto.save = function() {
+      console.log("save called", editPhoto.photo);
   };
 })
 
-.controller('EditProjectController',
-  function($location, $routeParams, projects) {
-    var editProject = this;
+.controller('EditPhotoController',
+  function($location, $routeParams, photos) {
+    var editPhoto = this;
     var projectId = $routeParams.projectId,
         projectIndex;
 
-    editProject.projects = projects;
-    projectIndex = editProject.projects.$indexFor(projectId);
-    editProject.project = editProject.projects[projectIndex];
+    editPhoto.photos = photos;
+    projectIndex = editPhoto.photos.$indexFor(projectId);
+    editPhoto.project = editPhoto.photos[projectIndex];
 
-    editProject.destroy = function() {
+    editPhoto.destroy = function() {
       console.log("destroy called");
     };
 
-    editProject.save = function() {
+    editPhoto.save = function() {
       console.log("save called");
     };
 });
