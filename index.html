@@ -4,11 +4,18 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/bootstrap-theme.min.css">
+    <script src="assets/js/kinto-client.min.js"></script>
     <script src="assets/js/angular.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="js/geophotos.js"></script>
   </head>
   <body>
+    <h2>Ajouter une nouvelle photo</h2>
+      <form ng-submit="todoList.addTodo()">
+        <input type="text" ng-model="todoList.todoText"  size="30"
+               placeholder="add new todo here">
+        <input class="btn-primary" type="submit" value="add">
+      </form>
     <h2>Photos publiées</h2>
     <div ng-controller="PhotosController as photos">
       <span>{{photos.list.length}} photos actuellement publiées</span>
