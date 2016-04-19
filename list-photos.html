@@ -1,0 +1,18 @@
+<h2>Photos publiées</h2>
+<div>
+  <span>{{photos.list.length}} photos actuellement publiées</span>
+  <table class="table">
+    <thead>
+      <tr> <th>#</th> <th>Photo</th> <th>Auteur</th> <th>Date</th> <th>Contrôles</th> </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="photo in projectList.projects">
+        <th scope="row">{{photo.id}}</th>
+        <td><img ng-src={{photo.location}} />{{photo.name}}</td>
+        <td>{{photo.author}}</td>
+        <td>{{photo.last_modified}}</td>
+        <td>Supprimer / Voir</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
