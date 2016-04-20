@@ -4,7 +4,14 @@
   <a href="#/new">Ajouter une photo</a>
   <ul class="gallery">
     <li ng-repeat="photo in photos">
-			<figure><img ng-src={{photo.attachment.location}}><figcaption><strong>{{photo.name}}</strong> Proposé par {{photo.author}}, envoyé le {{photo.last_modified | date:mediumDate }}</figcaption></figure>
+			<figure>
+        <img ng-src={{photo.attachment.location}}>
+        <figcaption>
+          <a ng-href="#/edit/{{photo.id}}">éditer</a>
+          <strong>{{photo.name}}</strong>
+          Proposé par {{photo.author}} le {{photo.last_modified | date:mediumDate }}
+        </figcaption>
+      </figure>
 		</li>
   </ul>
 </div>

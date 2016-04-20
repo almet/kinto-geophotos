@@ -16,6 +16,10 @@ angular.module('project', ['ngRoute'])
     });
   };
 
+  this.deletePhoto = function (id) {
+    return photo_collection.deleteRecord(id);
+  };
+
   this.uploadPhoto = function(file, description, callback) {
     var bucketName = "tvb-leslandes";
     var collectionName = "photos";
@@ -54,6 +58,9 @@ angular.module('project', ['ngRoute'])
     },
     uploadPhoto: function(Photos) {
       return Photos.uploadPhoto;
+    },
+    deletePhoto: function(Photos) {
+      return Photos.deletePhoto;
     }
   };
 
@@ -63,7 +70,7 @@ angular.module('project', ['ngRoute'])
       templateUrl:'list-photos.html',
       resolve: resolvePhotos
     })
-    .when('/edit/:projectId', {
+    .when('/edit/:id', {
       controller:'EditPhotoController as editPhoto',
       templateUrl:'edit-photo.html',
       resolve: resolvePhotos
@@ -85,7 +92,6 @@ angular.module('project', ['ngRoute'])
 .controller('NewPhotoController', function($scope, $location, photos, uploadPhoto) {
   $scope.save = function() {
     uploadPhoto($scope.files[0], $scope.photo).then(function() {
-      console.log("it's okay! Redirecting.");
       $location.path('/');
       $scope.$apply();
     });
@@ -96,46 +102,29 @@ angular.module('project', ['ngRoute'])
   };
 })
 
-.controller('EditPhotoController',
-  function($location, $routeParams, photos) {
-    var editPhoto = this;
-    var projectId = $routeParams.projectId,
-        projectIndex;
+.controller('EditPhotoController', function($scope, $location, $routeParams, photos, deletePhoto) {
+    var id = $routeParams.id;
 
-    editPhoto.photos = photos;
-    projectIndex = editPhoto.photos.$indexFor(projectId);
-    editPhoto.project = editPhoto.photos[projectIndex];
+    $scope.photos = photos;
+    $scope.photo = $scope.photos.filter(function(record) {
+      return record.id == id;
+    })[0];
 
-    editPhoto.destroy = function() {
-      console.log("destroy called");
+    $scope.destroy = function() {
+      deletePhoto($scope.photo.id).then(function() {
+        $location.path('/');
+        $scope.$apply();
+      });
     };
 
-    editPhoto.save = function() {
-      console.log("save called");
+    $scope.save = function() {
+      uploadPhoto($scope.files[0], $scope.photo).then(function() {
+        $location.path('/');
+        $scope.$apply();
+      });
+    };
+
+    $scope.uploadFile = function(files) {
+      $scope.files = files;
     };
 });
-
-
-
-//angular.module('project')
-//    .controller('ListPhotosController', function() {
-//      var headers = {Authorization: "Basic " + btoa("user:pass")};
-//      var client = new KintoClient.default("http://localhost:8888/v1", {headers: headers});
-//      var photos = this;
-//      var bucket = client.bucket("tvb-leslandes");
-//      var photo_collection = bucket.collection("photos");
-//
-//      photos.listPhotos = function() {
-//        photo_collection.listRecords().then(function(records) {
-//          photos.list = records.data;
-//        });
-//      };
-//      photos.listPhotos();
-//
-//      // photos.list = [
-//      //   {id:1, name: "Laura et la patate", location:"file:///home/alexis/Photos/public/2014-couscous/_DSC0127.jpg", author: "Alexis", last_modified: "1234"},
-//      //   {id:2, name: "Maxime souris", location:"file:///home/alexis/Photos/public/2014-couscous/_DSC0039.jpg", author: "Alexis", last_modified: "1234"}
-//      // ];
-//
-//    });
-//
