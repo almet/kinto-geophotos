@@ -1,4 +1,4 @@
-angular.module('project', ['ngRoute'])
+angular.module('project', ['ngRoute', 'leaflet-directive'])
 
 .service('Photos', function() {
   var bucketName = "tvb-leslandes";
@@ -90,7 +90,45 @@ angular.module('project', ['ngRoute'])
 })
 
 .controller('NewPhotoController', function($scope, $location, photos, uploadPhoto) {
+  $scope.photo = {
+    location: {}
+  };
+  var mainMarker = {
+    lat: 47.95,
+    lng: -2.1,
+    focus: true,
+    message: "Déplacez ce marqueur à l'endroit ou la photo à été prise",
+    draggable: true
+  };
+
+  angular.extend($scope, {
+    comcom: {
+      lat: 47.959444,
+      lng: -2.148333,
+      zoom: 12
+    },
+    markers: {
+      mainMarker: angular.copy(mainMarker)
+    },
+    position: {
+      lat: 47.95,
+      lng: -2.1
+    },
+    events: { // or just {} //all events
+      markers:{
+        enable: [ 'dragend' ]
+        //logic: 'emit'
+      }
+    }
+  });
+
+  $scope.$on("leafletDirectiveMarker.dragend", function(event, args){
+    $scope.photo.location.lat = args.model.lat;
+    $scope.photo.location.lng = args.model.lng;
+  });
+
   $scope.save = function() {
+    console.log("Saving", $scope.photo);
     uploadPhoto($scope.files[0], $scope.photo).then(function() {
       $location.path('/');
       $scope.$apply();
