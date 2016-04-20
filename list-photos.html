@@ -1,13 +1,13 @@
 <h2>Photos publiées</h2>
 <div>
-  <span>{{photoList.photos.length}} photos actuellement publiées</span>
+  <span>{{photos.length}} photos actuellement publiées</span>
   <a href="#/new">Ajouter une photo</a>
   <table class="table">
     <thead>
       <tr> <th>#</th> <th>Photo</th> <th>Auteur</th> <th>Date</th> <th>Contrôles</th> </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="photo in photoList.photos">
+      <tr ng-repeat="photo in photos">
         <th scope="row">{{photo.id}}</th>
         <td><img ng-src={{photo.location}} />{{photo.name}}</td>
         <td>{{photo.author}}</td>

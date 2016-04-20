@@ -36,14 +36,17 @@ angular.module('project', ['ngRoute'])
     });
 })
 
-.controller('PhotoListController', function(photos) {
-  this.photos = photos;
+.controller('PhotoListController', function($scope, photos) {
+  $scope.photos = photos;
 })
 
-.controller('NewPhotoController', function($location, photos) {
-  var editPhoto = this;
-  editPhoto.save = function() {
-      console.log("save called", editPhoto.photo);
+.controller('NewPhotoController', function($scope, $location, photos) {
+  $scope.save = function() {
+    console.log("save called", $scope.photo, $scope.files);
+  };
+
+  $scope.uploadFile = function(files) {
+    $scope.files = files;
   };
 })
 
