@@ -2,18 +2,9 @@
 <div>
   <span>{{photos.length}} photos actuellement publiées</span>
   <a href="#/new">Ajouter une photo</a>
-  <table class="table">
-    <thead>
-      <tr> <th>#</th> <th>Photo</th> <th>Auteur</th> <th>Date</th> <th>Contrôles</th> </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="photo in photos">
-        <th scope="row">{{photo.id}}</th>
-        <td><img ng-src={{photo.attachment.location}} />{{photo.name}}</td>
-        <td>{{photo.author}}</td>
-        <td>{{photo.last_modified | date:mediumDate }}</td>
-        <td>Supprimer / Voir / Éditer</td>
-      </tr>
-    </tbody>
-  </table>
+  <ul class="gallery">
+    <li ng-repeat="photo in photos">
+			<figure><img ng-src={{photo.attachment.location}}><figcaption><strong>{{photo.name}}</strong> Proposé par {{photo.author}}, envoyé le {{photo.last_modified | date:mediumDate }}</figcaption></figure>
+		</li>
+  </ul>
 </div>

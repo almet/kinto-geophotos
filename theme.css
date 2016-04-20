@@ -1,0 +1,44 @@
+.gallery
+{
+	width: 100%;
+	overflow: hidden;
+
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+.gallery > li
+{
+	width: 25%;
+	float: left;
+	padding: 0.625rem; /* 10 */
+
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+.gallery > li > figure
+{
+	width: 100%;
+	color: #474d51;
+	background-color: #fff;
+	overflow: hidden;
+
+	-webkit-box-shadow: 0 0.125rem 0.313rem rgba( 0, 0, 0, .2 ); /* 2 5 */
+	box-shadow: 0 0.125rem 0.313rem rgba( 0, 0, 0, .2 ); /* 2 5 */
+}
+.gallery > li > figure img
+{
+	width: 100%;
+	display: block;
+}
+
+.gallery > li > figure figcaption
+{
+	padding: 1.25rem; /* 20 */
+}
