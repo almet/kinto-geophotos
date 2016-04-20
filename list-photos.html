@@ -9,9 +9,9 @@
     <tbody>
       <tr ng-repeat="photo in photos">
         <th scope="row">{{photo.id}}</th>
-        <td><img ng-src={{photo.location}} />{{photo.name}}</td>
+        <td><img ng-src={{photo.attachment.location}} />{{photo.name}}</td>
         <td>{{photo.author}}</td>
-        <td>{{photo.last_modified}}</td>
+        <td>{{photo.last_modified | date:mediumDate }}</td>
         <td>Supprimer / Voir / Éditer</td>
       </tr>
     </tbody>

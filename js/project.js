@@ -1,17 +1,59 @@
 angular.module('project', ['ngRoute'])
 
 .service('Photos', function() {
+  var bucketName = "tvb-leslandes";
+  var collectionName = "photos";
+  var serverUrl = "http://localhost:8888/v1"
+  var headers = {Authorization: "Basic " + btoa("user:pass")};
+
+  var client = new KintoClient.default(serverUrl, {headers: headers});
+  var bucket = client.bucket(bucketName);
+  var photo_collection = bucket.collection(collectionName);
+
   this.fetch = function () {
-    return [
-      {id:1, name: "Laura et la patate", location:"file:///home/alexis/Photos/public/2014-couscous/_DSC0127.jpg", author: "Alexis", last_modified: "1234"},
-      {id:2, name: "Maxime souris", location:"file:///home/alexis/Photos/public/2014-couscous/_DSC0039.jpg", author: "Alexis", last_modified: "1234"}
-    ];
+    return photo_collection.listRecords().then(function(records) {
+      return records.data;
+    });
   };
+
+  this.uploadPhoto = function(file, description) {
+    var bucketName = "tvb-leslandes";
+    var collectionName = "photos";
+    var serverUrl = "http://localhost:8888/v1"
+    var headers = {Authorization: "Basic " + btoa("user:pass")};
+    // Record id
+    var recordID = uuid4();
+
+    // Build form data
+    var formData = new FormData();
+    // Multipart attachment
+    formData.append('attachment', file, file.name);
+    // Record attributes as JSON encoded
+    formData.append('data', JSON.stringify(description));
+
+    // Post form using GlobalFetch API
+    var url = serverUrl + '/buckets/' + bucketName + "/collections/" + collectionName + "/records/" + recordID + "/attachment";
+    fetch(url, {method: "POST", body: formData, headers: headers})
+     .then(function (result) {
+        if (result.status > 400) {
+          throw new Error('Failed');
+        }
+     })
+     .then(function () {
+       console.log("Created !");
+     })
+     .catch(function (error) {
+       throw error;
+     });
+  }
 })
 .config(function($routeProvider) {
   var resolvePhotos = {
     photos: function (Photos) {
       return Photos.fetch();
+    },
+    uploadPhoto: function(Photos) {
+      return Photos.uploadPhoto;
     }
   };
 
@@ -40,9 +82,9 @@ angular.module('project', ['ngRoute'])
   $scope.photos = photos;
 })
 
-.controller('NewPhotoController', function($scope, $location, photos) {
+.controller('NewPhotoController', function($scope, $location, photos, uploadPhoto) {
   $scope.save = function() {
-    console.log("save called", $scope.photo, $scope.files);
+    uploadPhoto($scope.files[0], $scope.photo);
   };
 
   $scope.uploadFile = function(files) {
