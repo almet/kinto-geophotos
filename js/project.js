@@ -16,7 +16,7 @@ angular.module('project', ['ngRoute'])
     });
   };
 
-  this.uploadPhoto = function(file, description) {
+  this.uploadPhoto = function(file, description, callback) {
     var bucketName = "tvb-leslandes";
     var collectionName = "photos";
     var serverUrl = "http://localhost:8888/v1"
@@ -33,14 +33,14 @@ angular.module('project', ['ngRoute'])
 
     // Post form using GlobalFetch API
     var url = serverUrl + '/buckets/' + bucketName + "/collections/" + collectionName + "/records/" + recordID + "/attachment";
-    fetch(url, {method: "POST", body: formData, headers: headers})
+    return fetch(url, {method: "POST", body: formData, headers: headers})
      .then(function (result) {
         if (result.status > 400) {
           throw new Error('Failed');
         }
      })
      .then(function () {
-       console.log("Created !");
+       return;
      })
      .catch(function (error) {
        throw error;
@@ -84,7 +84,11 @@ angular.module('project', ['ngRoute'])
 
 .controller('NewPhotoController', function($scope, $location, photos, uploadPhoto) {
   $scope.save = function() {
-    uploadPhoto($scope.files[0], $scope.photo);
+    uploadPhoto($scope.files[0], $scope.photo).then(function() {
+      console.log("it's okay! Redirecting.");
+      $location.path('/');
+      $scope.$apply();
+    });
   };
 
   $scope.uploadFile = function(files) {
