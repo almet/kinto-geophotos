@@ -23,7 +23,7 @@
 	var map = L.map('map', {
 		maxZoom: 14
 	});
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: 'OpenStreetMap'}).addTo(map);
+  L.tileLayer('//{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: 'OpenStreetMap'}).addTo(map);
 
   var legend = L.control({position: 'topright'});
 
