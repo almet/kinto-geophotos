@@ -93,7 +93,7 @@ angular.module('project', ['ngRoute', 'leaflet-directive'])
   };
 
   angular.extend($scope, {
-    comcom: kintoConfig.inputZone,
+    inputZone: kintoConfig.inputZone,
     markers: {
       mainMarker: angular.copy(mainMarker)
     },
@@ -106,13 +106,16 @@ angular.module('project', ['ngRoute', 'leaflet-directive'])
     }
   });
 
+  // By default, lng/lat do have a default value.
+  $scope.photo.location.lat = kintoConfig.mainMarker.lat;
+  $scope.photo.location.lng = kintoConfig.mainMarker.lng;
+
   $scope.$on("leafletDirectiveMarker.dragend", function(event, args){
     $scope.photo.location.lat = args.model.lat;
     $scope.photo.location.lng = args.model.lng;
   });
 
   $scope.save = function() {
-    console.log("Saving", $scope.photo);
     uploadPhoto($scope.files[0], $scope.photo).then(function() {
       $location.path('/');
       $scope.$apply();

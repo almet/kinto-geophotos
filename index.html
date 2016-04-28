@@ -57,8 +57,8 @@
 		success: function (resp) {
       photos = resp.data.map(function(record) {
         return {
-          lat: record.location.lat,
-          lng: record.location.lng,
+          lat: record.location.lat || kintoConfig.mainMarker.lat,
+          lng: record.location.lng || kintoConfig.mainMarker.lng,
           thumbnail: record.attachment.location,
           url: record.attachment.location,
           caption: record.name,
