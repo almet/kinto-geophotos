@@ -16,6 +16,23 @@
     <script src="js/project.js"></script>
   </head>
   <body>
-    <div ng-view></div>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Administration</a></li>
+            <li><a href="#/new">Ajouter une photo</a></li>
+            <li><a href="../">Retourner à la carte</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+      <div id="content">
+        <div ng-view></div>
+    </div>
+    </div><!-- /.container -->
+
   </body>
 </html>

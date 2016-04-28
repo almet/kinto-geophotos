@@ -1,24 +1,20 @@
 <form name="myForm">
   <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
-  <div class="control-group" ng-class="{error: myForm.name.$invalid && !myForm.name.$pristine}">
-    <label>Nom de la photo</label>
-    <input type="text" name="name" ng-model="photo.name" required>
+  <div class="form-group" ng-class="{error: myForm.name.$invalid && !myForm.name.$pristine}">
+    <label for="name">Nom de la photo</label>
+    <input type="text" class="form-control" id="name" name="name" ng-model="photo.name" required>
     <span ng-show="myForm.name.$error.required && !myForm.name.$pristine" class="help-inline">
         Requis
     </span>
   </div>
-
-  <div class="control-group" ng-class="{error: myForm.author.$invalid && !myForm.author.$pristine}">
-    <label>Auteur</label>
-    <input type="text" name="author" ng-model="photo.author" required>
+  <div class="form-group" ng-class="{error: myForm.author.$invalid && !myForm.author.$pristine}">
+    <label for="author">Auteur</label>
+    <input type="text" class="form-control" id="author" name="author" ng-model="photo.author" required>
     <span ng-show="myForm.author.$error.required && !myForm.author.$pristine" class="help-inline">
         Requis
     </span>
   </div>
   <div>
-    <ul>
-        <li><strong ng-bind="eventDetected"></strong> caught in listener.</li>
-    </ul>
     <leaflet lf-center="comcom" event-broadcast="events" markers="markers" height="480px" width="100%"></leaflet>
   </div>
   <br>
