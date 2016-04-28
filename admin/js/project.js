@@ -15,7 +15,7 @@ angular.module('project', ['ngRoute', 'leaflet-directive'])
     return photo_collection.deleteRecord(id);
   };
 
-  this.uploadPhoto = function(file, description, callback) {
+  this.uploadPhoto = function(file, description) {
     // Record id
     var recordID = uuid4();
 
