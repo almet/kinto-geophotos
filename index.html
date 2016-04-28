@@ -1,20 +1,80 @@
-<!doctype html>
-<html ng-app="project">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="assets/css/leaflet.css">
-    <link rel="stylesheet" href="theme.css">
-    <script src="assets/js/leaflet.js"></script>
-    <script src="assets/js/kinto-client.min.js"></script>
-    <script src="assets/js/angular.min.js"></script>
-    <script src="assets/js/angular-route.min.js"></script>
-    <script src="assets/js/angular-leaflet-directive.min.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/project.js"></script>
-  </head>
-  <body>
-    <div ng-view></div>
-  </body>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet Instagram CartoDB</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta property="og:image" content="route.png" />
+	<link rel="stylesheet" href="lib/leaflet/leaflet.css" />
+	<link rel="stylesheet" href="lib/cluster/MarkerCluster.css" />
+	<link rel="stylesheet" href="css/Leaflet.Photo.css" />
+	<link rel="stylesheet" href="css/map.css" />
+</head>
+<body>
+	<div id="map"></div>
+	<script src="lib/reqwest.min.js"></script>
+	<script src="lib/leaflet/leaflet.js"></script>
+	<script src="lib/cluster/leaflet.markercluster.js"></script>
+	<script src="lib/Leaflet.Photo.js"></script>
+	<script>
+
+  var serverUrl = "http://localhost:8888/v1"
+  var headers = {Authorization: "Basic " + btoa("user:pass")};
+  var bucketName = "tvb-leslandes";
+  var collectionName = "photos";
+
+	var map = L.map('map', {
+		maxZoom: 14
+	});
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: 'OpenStreetMap'}).addTo(map);
+
+  var legend = L.control({position: 'topright'});
+
+  legend.onAdd = function (map) {
+  var div = L.DomUtil.create('div', 'info legend');
+      div.innerHTML += 'Vous souhaitez ajouter une photo ? Envoyez la nous sur <a href="mailto:tvb.leslandes@orange.fr">tvb.leslandes@orange.fr</a>.';
+  return div;
+  };
+
+  map.addControl(legend);
+
+	var photoLayer = L.photo.cluster().on('click', function (evt) {
+		var photo = evt.layer.photo,
+			template = '<img src="{url}" /></a><p>«{caption}», proposé par {author}</p>';
+
+		if (photo.video && (!!document.createElement('video').canPlayType('video/mp4; codecs=avc1.42E01E,mp4a.40.2'))) {
+			template = '<video autoplay controls poster="{url}" width="300" height="300"><source src="{video}" type="video/mp4"/></video>';
+		};
+
+		evt.layer.bindPopup(L.Util.template(template, photo), {
+			className: 'leaflet-popup-photo',
+			minWidth: 300
+		}).openPopup();
+	});
+
+  var url = serverUrl + '/buckets/' + bucketName + "/collections/" + collectionName + "/records";
+	reqwest({
+		url: url,
+    type: 'json',
+    headers: headers,
+		success: function (resp) {
+      photos = resp.data.map(function(record) {
+        return {
+          lat: record.location.lat,
+          lng: record.location.lng,
+          thumbnail: record.attachment.location,
+          url: record.attachment.location,
+          caption: record.name,
+          author: record.author,
+        };
+      });
+      // 'http://turban.cartodb.com/api/v2/sql?q=SELECT latitude AS lat, longitude AS lng, image_thumb AS thumbnail, image_standard AS url, video_standard AS video, caption FROM instagram WHERE the_geom %26%26 ST_SetSRID(ST_MakeBox2D(ST_Point(5.727, 59.124), ST_Point(5.924, 59.305)), 4326)',
+      console.log(photos);
+			photoLayer.add(photos).addTo(map);
+			map.fitBounds(photoLayer.getBounds());
+		}
+	});
+
+	</script>
+</body>
 </html>
