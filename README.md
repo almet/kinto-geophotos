@@ -35,9 +35,12 @@ configuration file to run kinto with the *kinto-attachment* plugin.
 This repository ships with a `config.js.dev` file, that you should adapt to
 your own needs and rename `config.js` so that everything can work together.
 
-  $ git clone https://github.com/almet/kinto-geophotos.git
-  $ cd kinto-geophotos
-  $ cp config.js{.dev,}
+```bash
+
+$ git clone https://github.com/almet/kinto-geophotos.git
+$ cd kinto-geophotos
+$ cp config.js{.dev,}
+```
 
 And then edit the `config.js` file and specify your own settings.
 
@@ -49,7 +52,10 @@ server. This should be done with the following commands (which uses
 `bucketname`, `collectionname` and `user:pass` values with the values you
 specified in your configuration file:
 
-  $ http PUT http://localhost:8888/v1/buckets/bucketname -a user:pass --json
-  $ http PUT http://localhost:8888/v1/buckets/bucketname/collections/collectionname -a user:pass --json
+```bash
+
+$ http PUT http://localhost:8888/v1/buckets/bucketname -a user:pass --json
+$ http PUT http://localhost:8888/v1/buckets/bucketname/collections/collectionname -a user:pass --json
+```
 
 And you should be good to go!
