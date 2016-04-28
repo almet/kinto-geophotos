@@ -8,14 +8,14 @@ server, and displays them on a map.
 All the photos are displayed on a map, thanks to the [Leaflet.Photo](http://i.imgur.com/SQrsJlq.png)
 project.
 
-!()[http://i.imgur.com/SQrsJlq.png]
+![](http://i.imgur.com/SQrsJlq.png)
 
 ## Administration dashboard
 
 You can review all the published photos in the admin dashboard:
 
-!()[http://i.imgur.com/GXVy4k5.png]
-!()[http://i.imgur.com/axQvYFk.png]
+![](http://i.imgur.com/GXVy4k5.png)
+![](http://i.imgur.com/axQvYFk.png)
 
 ## How to run your own?
 
