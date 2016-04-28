@@ -85,26 +85,19 @@ angular.module('project', ['ngRoute', 'leaflet-directive'])
     location: {}
   };
   var mainMarker = {
-    lat: 47.95,
-    lng: -2.1,
+    lat: kintoConfig.mainMarker.lat,
+    lng: kintoConfig.mainMarker.lng,
     focus: true,
     message: "Déplacez ce marqueur à l'endroit ou la photo à été prise",
     draggable: true
   };
 
   angular.extend($scope, {
-    comcom: {
-      lat: 47.959444,
-      lng: -2.148333,
-      zoom: 12
-    },
+    comcom: kintoConfig.inputZone,
     markers: {
       mainMarker: angular.copy(mainMarker)
     },
-    position: {
-      lat: 47.95,
-      lng: -2.1
-    },
+    position: kintoConfig.mainMarker,
     events: { // or just {} //all events
       markers:{
         enable: [ 'dragend' ]

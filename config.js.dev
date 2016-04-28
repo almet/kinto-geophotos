@@ -1,8 +1,17 @@
 var kintoConfig = {
-  pageTitle: "Exposition sur le thème de la trame verte et bleue sur la communauté de communes de Guer.",
-  mapLegend: "Vous souhaitez ajouter une photo ? Envoyez la nous sur <a href='mailto:tvb.leslandes@orange.fr'>tvb.leslandes@orange.fr</a>.",
+  pageTitle: "Ma liste de photos.",
+  mapLegend: "Go and have a look at <a href='/admin'>the admin</a>.",
   serverUrl: "http://localhost:8888/v1",
   headers: {Authorization: "Basic " + btoa("user:pass")},
-  bucketName: "tvb-leslandes",
-  collectionName: "photos"
+  bucketName: "mybucket",
+  collectionName: "photos",
+  mainMarker: {
+    lat: 47.900000,
+    lng: -2.200000
+  },
+  inputZone: {
+    lat: 47.900000,
+    lng: -2.200000,
+    zoom: 12
+  }
 }
