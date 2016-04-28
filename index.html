@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Leaflet Instagram CartoDB</title>
+	<title>Kinto geolocalized photos</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta property="og:image" content="route.png" />
@@ -16,12 +16,9 @@
 	<script src="lib/leaflet/leaflet.js"></script>
 	<script src="lib/cluster/leaflet.markercluster.js"></script>
 	<script src="lib/Leaflet.Photo.js"></script>
+  <script src="config.js"></script>
 	<script>
-
-  var serverUrl = "http://localhost:8888/v1"
-  var headers = {Authorization: "Basic " + btoa("user:pass")};
-  var bucketName = "tvb-leslandes";
-  var collectionName = "photos";
+  document.title = kintoConfig.pageTitle;
 
 	var map = L.map('map', {
 		maxZoom: 14
@@ -31,9 +28,9 @@
   var legend = L.control({position: 'topright'});
 
   legend.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'info legend');
-      div.innerHTML += 'Vous souhaitez ajouter une photo ? Envoyez la nous sur <a href="mailto:tvb.leslandes@orange.fr">tvb.leslandes@orange.fr</a>.';
-  return div;
+    var div = L.DomUtil.create('div', 'info legend');
+    div.innerHTML += kintoConfig.mapLegend;
+    return div;
   };
 
   map.addControl(legend);
@@ -52,11 +49,11 @@
 		}).openPopup();
 	});
 
-  var url = serverUrl + '/buckets/' + bucketName + "/collections/" + collectionName + "/records";
+  var url = kintoConfig.serverUrl + '/buckets/' + kintoConfig.bucketName + "/collections/" + kintoConfig.collectionName + "/records";
 	reqwest({
 		url: url,
     type: 'json',
-    headers: headers,
+    headers: kintoConfig.headers,
 		success: function (resp) {
       photos = resp.data.map(function(record) {
         return {

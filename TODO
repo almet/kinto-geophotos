@@ -1,0 +1,3 @@
+- Warn the user if long/lat is not specified.
+- Add a link to the map from the admin
+- Add permissions and a password prompt when accessing the admin.

@@ -1,14 +1,9 @@
 angular.module('project', ['ngRoute', 'leaflet-directive'])
 
 .service('Photos', function() {
-  var bucketName = "tvb-leslandes";
-  var collectionName = "photos";
-  var serverUrl = "http://localhost:8888/v1"
-  var headers = {Authorization: "Basic " + btoa("user:pass")};
-
-  var client = new KintoClient.default(serverUrl, {headers: headers});
-  var bucket = client.bucket(bucketName);
-  var photo_collection = bucket.collection(collectionName);
+  var client = new KintoClient.default(kintoConfig.serverUrl, {headers: kintoConfig.headers});
+  var bucket = client.bucket(kintoConfig.bucketName);
+  var photo_collection = bucket.collection(kintoConfig.collectionName);
 
   this.fetch = function () {
     return photo_collection.listRecords().then(function(records) {
@@ -21,10 +16,6 @@ angular.module('project', ['ngRoute', 'leaflet-directive'])
   };
 
   this.uploadPhoto = function(file, description, callback) {
-    var bucketName = "tvb-leslandes";
-    var collectionName = "photos";
-    var serverUrl = "http://localhost:8888/v1"
-    var headers = {Authorization: "Basic " + btoa("user:pass")};
     // Record id
     var recordID = uuid4();
 
@@ -36,8 +27,8 @@ angular.module('project', ['ngRoute', 'leaflet-directive'])
     formData.append('data', JSON.stringify(description));
 
     // Post form using GlobalFetch API
-    var url = serverUrl + '/buckets/' + bucketName + "/collections/" + collectionName + "/records/" + recordID + "/attachment";
-    return fetch(url, {method: "POST", body: formData, headers: headers})
+    var url = kintoConfig.serverUrl + '/buckets/' + kintoConfig.bucketName + "/collections/" + kintoConfig.collectionName + "/records/" + recordID + "/attachment";
+    return fetch(url, {method: "POST", body: formData, headers: kintoConfig.headers})
      .then(function (result) {
         if (result.status > 400) {
           throw new Error('Failed');
