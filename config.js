@@ -1,6 +1,6 @@
 var kintoConfig = {
   pageTitle: "Ma liste de photos.",
-  mapLegend: "Go and have a look at <a href='/admin'>the admin</a>.",
+  mapLegend: "Go and have a look at <a href='http://almet.github.io/kinto-geophotos/admin'>the admin</a>.",
   serverUrl: "https://kinto.notmyidea.org/v1",
   headers: {Authorization: "Basic " + btoa("token:geophotoapp")},
   bucketName: "geophotoapp",
